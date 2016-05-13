@@ -3,6 +3,8 @@ from wtforms import (
     TextField,
     TextAreaField,
     validators,
+    PasswordField,
+    HiddenField,
 )
 
 strip_filter = lambda x: x.strip() if x else None
@@ -18,4 +20,26 @@ class EntryCreateForm(Form):
         'Entry body',
         [validators.Length(min=1)],
         filters=[strip_filter]
+    )
+
+class EditForm(Form):
+    id = HiddenField()
+    title = TextField(
+        'Entry title',
+        [validators.Length(min=1, max=255)],
+        filters=[strip_filter]
+    )
+    body = TextAreaField(
+        'Entry body',
+        [validators.Length(min=1)],
+        filters=[strip_filter]
+    )
+
+class LoginForm(Form):
+    username = TextField(
+        'Username',
+        [validators.Length(min=5, max=255)]
+    )
+    password = PasswordField(
+        'Password', [validators.Length(min=5, max=255)]
     )
