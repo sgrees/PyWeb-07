@@ -22,6 +22,10 @@ from passlib.context import CryptContext
 
 password_context = CryptContext(schemes=['pbkdf2_sha512'])
 
+from passlib.context import CryptContext
+
+password_context = CryptContext(schemes=['pbkdf2_sha512'])
+
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 

@@ -41,4 +41,3 @@ def main(argv=sys.argv):
         encrypted = password_context.encrypt('admin')
         admin = User(name='admin', password=encrypted)
         DBSession.add(admin)
-

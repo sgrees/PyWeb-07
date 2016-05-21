@@ -6,5 +6,6 @@ class EntryFactory(object):
         (Allow, Authenticated, 'create'),
         (Allow, Authenticated, 'edit'),
     ]
+
     def __init__(self, request):
         pass
