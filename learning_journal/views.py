@@ -2,7 +2,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.httpexceptions import HTTPFound
-from .forms import EntryCreateForm, LoginForm
+from .forms import EntryCreateForm, EntryEditForm, LoginForm
 from pyramid.security import forget, remember
 
 from pyramid.security import authenticated_userid
@@ -52,8 +52,15 @@ def create(request):
 
 @view_config(route_name='action', match_param='action=edit', renderer='string', permission='edit')
 def update(request):
-    this_id = request.matchdict.get('id', -1)
-    return 'edit page'
+    this_id = int(request.params.get('id', -1))
+    entry = Entry.by_id(this_id)
+    form = EntryEditForm(request.POST, entry)
+    if not entry:
+        return HTTPNotFound()
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(entry)
+        return HTTPFound(location=request.route_url('home'))
+    return {'form': form, 'action': request.matchdict.get('action')}
 
 @view_config(route_name='auth', match_param='action=in', renderer='string', request_method='POST')
 def sign_in(request):
